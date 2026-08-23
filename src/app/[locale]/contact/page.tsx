@@ -50,9 +50,14 @@ export default async function ContactPage({ params }: Props) {
       </article>
       <p className="mt-8">{t('emailNote')}</p>
       <p className="mt-4 text-sm text-muted">{t('delivery')}</p>
-      <a href={house.phoneHref} className="btn btn-red mt-10">
-        {house.phone}
-      </a>
+      <div className="mt-10 flex flex-wrap gap-3">
+        <a href={house.phoneHref} className="btn btn-red">
+          {house.phone}
+        </a>
+        <a href={house.doordash} className="btn btn-chrome" target="_blank" rel="noreferrer">
+          {t('orderDash')}
+        </a>
+      </div>
     </div>
   );
 }

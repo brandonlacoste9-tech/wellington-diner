@@ -35,9 +35,14 @@ export default async function HoursPage({ params }: Props) {
       <p className="mt-8 text-sm text-muted">{t('schema')}</p>
       <p className="mt-3 text-sm text-muted">{t('delivery')}</p>
       <p className="mt-3 font-extrabold">{t('book')}</p>
-      <a href={house.phoneHref} className="btn btn-red mt-10">
-        {house.phone}
-      </a>
+      <div className="mt-10 flex flex-wrap gap-3">
+        <a href={house.phoneHref} className="btn btn-red">
+          {house.phone}
+        </a>
+        <a href={house.doordash} className="btn btn-chrome" target="_blank" rel="noreferrer">
+          {t('orderDash')}
+        </a>
+      </div>
     </div>
   );
 }

@@ -16,6 +16,11 @@ const icons = {
       <path d="M17.5 3h3.1l-6.8 7.8L22 21h-6.2l-4.8-6.3L5.6 21H2.4l7.3-8.3L2 3h6.3l4.4 5.8L17.5 3Zm-1.1 16.2h1.7L7.7 4.7H5.9l10.5 14.5Z" />
     </svg>
   ),
+  doordash: (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
+      <path d="M8 7V6a4 4 0 0 1 8 0v1h2.3l1.4 12.5H4.3L5.7 7H8Zm2 0h4V6a2 2 0 0 0-4 0v1Z" />
+    </svg>
+  ),
 } as const;
 
 type Props = {

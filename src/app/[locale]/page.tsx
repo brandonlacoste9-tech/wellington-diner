@@ -37,6 +37,9 @@ export default async function HomePage({ params }: Props) {
               <Link href="/menu" className="btn btn-ghost border-white text-white">
                 {t('ctaMenu')}
               </Link>
+              <a href={house.doordash} className="btn btn-ghost border-white text-white" target="_blank" rel="noreferrer">
+                {t('ctaDash')}
+              </a>
             </div>
           </div>
           <div className="relative min-h-[22rem] overflow-hidden md:min-h-[28rem]">

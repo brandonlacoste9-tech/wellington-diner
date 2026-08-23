@@ -23,6 +23,7 @@
     "lead": "Breakfast, lunch, dinner, and the in-between. They print: come in, sit down, get ready to eat.",
     "ctaCall": "Call (613) 798-7800",
     "ctaMenu": "The menu",
+    "ctaDash": "Order on DoorDash",
     "heroAlt": "A Wellington Diner burger and fries.",
     "hoursTitle": "Open daily 8 am–9 pm",
     "hoursLead": "As printed on their home page. Their schema lists the same window but skips Monday — we print the seven-day board they show.",
@@ -53,6 +54,7 @@
     "lead": "Come visit us — daily 8 am to 9 pm on the home page.",
     "schema": "Their Google schema also says 08:00–21:00, but it lists Sunday and Tuesday–Saturday only (no Monday). We do not drop Monday when the page itself prints it.",
     "delivery": "Third-party apps sometimes show different close times. We print the diner’s own hours.",
+    "orderDash": "Order on DoorDash",
     "book": "Reservations by phone only."
   },
   "about": {
@@ -69,7 +71,8 @@
     "lead": "Reservations are taken by phone. Please call to book. Their Wix form is for messages, not a table hold. We do not process reservations here.",
     "emailNote": "jeff@thewellingtondiner.ca is on the site.",
     "map": "Map",
-    "delivery": "The live site mentions DoorDash. We do not invent a store URL."
+    "orderDash": "Order on DoorDash",
+    "delivery": "DoorDash delivers this diner. App hours can close earlier than the in-house 9 pm board. Tables are still by phone — DoorDash is not a reservation."
   },
   "footer": {
     "line": "Family · food · fun & friends",

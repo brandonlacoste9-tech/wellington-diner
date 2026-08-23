@@ -9,6 +9,7 @@ export const house = {
   facebook: 'https://www.facebook.com/wellingtondiner/',
   instagram: 'https://www.instagram.com/thewellingtondiner/',
   x: 'https://x.com/wellingtondiner',
+  doordash: 'https://www.doordash.com/store/the-wellington-diner-ottawa-298679/',
   logo: '/logo.png',
   hero: '/hero.jpg',
   plate: '/food2.jpg',
@@ -19,6 +20,7 @@ export const socials = [
   { id: 'facebook', label: 'Facebook', href: house.facebook },
   { id: 'instagram', label: 'Instagram', href: house.instagram },
   { id: 'x', label: 'X', href: house.x },
+  { id: 'doordash', label: 'DoorDash', href: house.doordash },
 ] as const;
 
 export const shop = {
