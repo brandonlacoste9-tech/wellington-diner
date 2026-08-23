@@ -40,6 +40,9 @@ export default async function SpecialsPage({ params }: Props) {
         <a href={house.challengeVideo} className="btn btn-chrome mt-6" target="_blank" rel="noreferrer">
           {t('challengeWatch')}
         </a>
+        <a href={house.challengeVideo} className="mt-3 block break-all text-sm text-white underline" target="_blank" rel="noreferrer">
+          {house.challengeVideo}
+        </a>
       </article>
       <a href={house.challengeVideo} target="_blank" rel="noreferrer" className="relative mt-8 block min-h-[16rem] overflow-hidden border-4 border-ink">
         <img src={house.challenge} alt={t('challengeAlt')} className="absolute inset-0 h-full w-full object-cover object-center" />

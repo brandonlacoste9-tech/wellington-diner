@@ -140,6 +140,7 @@ function clock(hour: number, minute: number, mer: string | null, locale: Locale)
 export function forSpeech(text: string, locale: Locale = 'en'): string {
   let out = text;
 
+  out = out.replace(/https?:\/\/www\.youtube\.com\/watch\?v=wwTVFnJTOj4/gi, locale === 'fr' ? 'la vidéo YouTube Beard Meets Food du défi Mac Daddy' : 'the YouTube video of Beard Meets Food doing the Mac Daddy challenge');
   out = out.replace(/https?:\/\/\S+/gi, locale === 'fr' ? 'le lien à l’écran' : 'the link on the screen');
   out = out.replace(/\bDoorDash\b/gi, 'Door Dash');
   out = out.replace(/\bMac\s*'?\s*N\s*Cheese\b/gi, 'mac and cheese');

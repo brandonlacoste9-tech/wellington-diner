@@ -119,6 +119,9 @@ export default async function HomePage({ params }: Props) {
                 {t('challengeWatch')}
               </a>
             </div>
+            <a href={house.challengeVideo} className="mt-3 block break-all text-sm text-white/90 underline" target="_blank" rel="noreferrer">
+              {house.challengeVideo}
+            </a>
           </div>
           <a href={house.challengeVideo} target="_blank" rel="noreferrer" className="relative min-h-[16rem] overflow-hidden border-4 border-cream">
             <img src={house.challenge} alt={t('challengeAlt')} className="absolute inset-0 h-full w-full object-cover object-center" />

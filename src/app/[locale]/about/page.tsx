@@ -37,6 +37,9 @@ export default async function AboutPage({ params }: Props) {
         <span className="block">{shop.postal}</span>
       </p>
       <p className="mt-6">{t('challenge')}</p>
+      <a href={house.challengeVideo} className="mt-2 block break-all text-sm font-extrabold underline" target="_blank" rel="noreferrer">
+        {house.challengeVideo}
+      </a>
       <div className="mt-8 grid gap-3 sm:grid-cols-2">
         <div className="relative min-h-[14rem] overflow-hidden border-4 border-ink">
           <img src={house.storefront} alt="" className="absolute inset-0 h-full w-full object-cover" />

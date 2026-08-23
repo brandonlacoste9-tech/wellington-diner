@@ -219,6 +219,7 @@ BOOKING RULES:
 - Never ask for a name/party size as if taking a reservation. If they already gave one, tell them to repeat it on the phone.
 
 CHALLENGE: Mac Daddy food challenge ${challenge.price}, ${challenge.minutes} minutes. ${challenge.body[locale]}
+They credit Beard Meets Food (YouTube channel BeardMeatsFood). The video of him doing it at this diner: ${house.challengeVideo}
 
 WEEKLY SPECIALS:
 ${specialLines}
@@ -273,7 +274,7 @@ function hitBook(q: string) {
 }
 
 export function foodCue(q: string) {
-  return /\b(poutine|burger|benny|mac|hash|shake|milkshake|omelette|breakfast|wrap|club|salad|fries|kids|menu|special|coffee|beer|cocktail|lobster|pancake|benedict|homie|appetizer)\b/i.test(
+  return /\b(poutine|burger|benny|mac|hash|shake|milkshake|omelette|breakfast|wrap|club|salad|fries|kids|menu|special|coffee|beer|cocktail|lobster|pancake|benedict|homie|appetizer|beard|challenge)\b/i.test(
     q,
   );
 }
@@ -338,7 +339,9 @@ function specialId(q: string) {
 }
 
 function hitChallenge(q: string) {
-  return /\b(challenge|mac daddy challenge|40 min|food challenge|defi|défi)\b/.test(q);
+  return /\b(challenge|mac daddy challenge|40 min|food challenge|defi|défi|beard meets|beard meats|beardmeatsfood|youtube)\b/.test(
+    q,
+  );
 }
 
 function hitKids(q: string) {
@@ -405,8 +408,8 @@ export function localHostReply(question: string, locale: Locale): string {
 
   if (hitChallenge(q)) {
     return fr
-      ? `Défi Mac Daddy : ${challenge.price}, ${challenge.minutes} minutes. ${challenge.body.fr}`
-      : `Mac Daddy challenge: ${challenge.price}, ${challenge.minutes} minutes. ${challenge.body.en}`;
+      ? `Défi Mac Daddy : ${challenge.price}, ${challenge.minutes} minutes. ${challenge.body.fr} Ils créditent Beard Meets Food. La vidéo YouTube de lui le faisant ici : ${house.challengeVideo}`
+      : `Mac Daddy challenge: ${challenge.price}, ${challenge.minutes} minutes. ${challenge.body.en} They credit Beard Meets Food. The YouTube video of him doing it here: ${house.challengeVideo}`;
   }
 
   const spec = specialId(q);
