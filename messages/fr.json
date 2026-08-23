@@ -34,6 +34,8 @@
     "challengeTitle": "Défi Mac Daddy",
     "challengeLead": "40 minutes ou 49,99 $. Lait frappé Oreo, trois burgers, double poutine. Pas de partage, pas à emporter.",
     "challengeCta": "Le défi",
+    "challengeWatch": "Voir Beard Meets Food",
+    "challengeAlt": "Beard Meets Food au Wellington Diner avec le défi Mac Daddy.",
     "photosTitle": "De leur salle",
     "photosLead": "Photos qu’ils publient sur le site — la devanture, les assiettes, le tableau.",
     "altStorefront": "La devanture du Wellington Diner sur Wellington Street West, avec un hot rod devant.",
@@ -56,7 +58,9 @@
     "title": "Specials",
     "lead": "Comme sur leur menu. Sur place seulement là où ils le disent.",
     "challengeTitle": "Défi Mac Daddy",
-    "challengeCaption": "Ils créditent Beard Meets Food."
+    "challengeCaption": "Ils créditent Beard Meets Food. La chaîne YouTube s’appelle BeardMeatsFood — Adam Moran — dans leur booth pour le Mac Daddy.",
+    "challengeWatch": "Voir la vidéo YouTube qu’ils créditent",
+    "challengeAlt": "Beard Meets Food (BeardMeatsFood) au Wellington Diner avec le défi Mac Daddy : burgers, poutine et lait frappé."
   },
   "hours": {
     "kicker": "le tableau",

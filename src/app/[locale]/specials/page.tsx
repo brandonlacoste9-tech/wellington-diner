@@ -37,10 +37,13 @@ export default async function SpecialsPage({ params }: Props) {
         <p className="mt-3">{challenge.body[lang]}</p>
         <p className="mt-3 font-extrabold">{challenge.price}</p>
         <p className="mt-2 text-sm text-white/80">{t('challengeCaption')}</p>
+        <a href={house.challengeVideo} className="btn btn-chrome mt-6" target="_blank" rel="noreferrer">
+          {t('challengeWatch')}
+        </a>
       </article>
-      <div className="relative mt-8 min-h-[16rem] overflow-hidden border-4 border-ink">
-        <img src={house.challenge} alt="" className="absolute inset-0 h-full w-full object-cover" />
-      </div>
+      <a href={house.challengeVideo} target="_blank" rel="noreferrer" className="relative mt-8 block min-h-[16rem] overflow-hidden border-4 border-ink">
+        <img src={house.challenge} alt={t('challengeAlt')} className="absolute inset-0 h-full w-full object-cover object-center" />
+      </a>
       <a href={house.phoneHref} className="btn btn-red mt-10">
         {house.phone}
       </a>

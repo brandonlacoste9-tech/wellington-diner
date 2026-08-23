@@ -111,13 +111,18 @@ export default async function HomePage({ params }: Props) {
             <h2 className="text-5xl font-extrabold">{t('challengeTitle')}</h2>
             <p className="mt-4 text-white/90">{t('challengeLead')}</p>
             <p className="mt-3 font-extrabold">{challenge.price}</p>
-            <Link href="/specials" className="btn btn-chrome mt-6">
-              {t('challengeCta')}
-            </Link>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/specials" className="btn btn-chrome">
+                {t('challengeCta')}
+              </Link>
+              <a href={house.challengeVideo} className="btn btn-ghost border-white text-white" target="_blank" rel="noreferrer">
+                {t('challengeWatch')}
+              </a>
+            </div>
           </div>
-          <div className="relative min-h-[16rem] overflow-hidden border-4 border-cream">
-            <img src={house.challenge} alt="" className="absolute inset-0 h-full w-full object-cover" />
-          </div>
+          <a href={house.challengeVideo} target="_blank" rel="noreferrer" className="relative min-h-[16rem] overflow-hidden border-4 border-cream">
+            <img src={house.challenge} alt={t('challengeAlt')} className="absolute inset-0 h-full w-full object-cover object-center" />
+          </a>
         </div>
       </section>
     </>

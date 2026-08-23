@@ -18,7 +18,8 @@ export const house = {
   benny: '/benny.jpg',
   stacked: '/stacked.jpg',
   club: '/club.jpg',
-  challenge: '/plates.jpg',
+  challenge: '/beard-meets-food.jpg',
+  challengeVideo: 'https://www.youtube.com/watch?v=wwTVFnJTOj4',
   menuCopied: '2026-08-23',
 } as const;
 

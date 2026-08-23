@@ -34,6 +34,8 @@
     "challengeTitle": "Mac Daddy challenge",
     "challengeLead": "40 minutes or it's $49.99. Oreo shake, three Mac Daddy burgers, double homie poutine. No splitting, no take-home.",
     "challengeCta": "The challenge",
+    "challengeWatch": "Watch Beard Meets Food",
+    "challengeAlt": "Beard Meets Food at The Wellington Diner with the Mac Daddy challenge.",
     "photosTitle": "From their room",
     "photosLead": "Photos they publish on the live site — the storefront, the plates, the board.",
     "altStorefront": "The Wellington Diner storefront on Wellington Street West, with a hot rod parked out front.",
@@ -56,7 +58,9 @@
     "title": "Specials",
     "lead": "As printed on their menu. In-house only where they say so.",
     "challengeTitle": "Mac Daddy food challenge",
-    "challengeCaption": "They credit Beard Meets Food for making it famous."
+    "challengeCaption": "They credit Beard Meets Food for making it famous. Channel name on YouTube is BeardMeatsFood — Adam Moran — in their booth for the Mac Daddy.",
+    "challengeWatch": "Watch the YouTube video they credit",
+    "challengeAlt": "Beard Meets Food (BeardMeatsFood) at The Wellington Diner with the Mac Daddy challenge: burgers, poutine, and a shake."
   },
   "hours": {
     "kicker": "the board",
