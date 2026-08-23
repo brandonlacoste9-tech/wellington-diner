@@ -74,6 +74,25 @@
     "orderDash": "Commander sur DoorDash",
     "delivery": "DoorDash livre ce diner. Les heures de l’app peuvent fermer plus tôt que le tableau 21 h. Les tables restent au téléphone — DoorDash n’est pas une réservation."
   },
+  "host": {
+    "open": "Parler à l’hôte",
+    "close": "Fermer",
+    "title": "Hôte du booth",
+    "subtitle": "Aide du site — pas le personnel du diner",
+    "hello": "Hey ! Menu, heures, réservation : je peux pointer le tableau. Je ne retiens pas de table — ils prennent les réservations au téléphone : (613) 798-7800.",
+    "placeholder": "Menu, heures, ou comment réserver…",
+    "send": "Envoyer",
+    "thinking": "J’essuie le comptoir…",
+    "fallback": "Je suis coincé de ce côté de la vitre. Appelle (613) 798-7800 — je ne peux toujours pas réserver.",
+    "fine": "Je ne prends pas de réservations. Appelle",
+    "chip": {
+      "hours": "Heures",
+      "book": "Réserver",
+      "mac": "Mac Daddy",
+      "kids": "Enfants gratis",
+      "dash": "DoorDash"
+    }
+  },
   "footer": {
     "line": "Family · food · fun & friends",
     "copy": "Aperçu de wellingtondiner.com. Le Wix reste en ligne tant qu’ils ne disent pas autrement."

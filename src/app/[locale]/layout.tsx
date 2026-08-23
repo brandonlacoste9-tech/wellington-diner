@@ -4,6 +4,7 @@ import { Barlow_Condensed, Source_Sans_3 } from 'next/font/google';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { BoothHost } from '@/components/host/BoothHost';
 import { AlertBar } from '@/components/layout/AlertBar';
 import { CallBar } from '@/components/layout/CallBar';
 import { SiteFooter } from '@/components/layout/SiteFooter';
@@ -68,6 +69,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             </main>
             <SiteFooter />
             <CallBar />
+            <BoothHost />
           </div>
         </NextIntlClientProvider>
       </body>
