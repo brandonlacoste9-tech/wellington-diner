@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { hostSystemPrompt, localHostReply, type HostMessage } from '@/lib/hostReply';
+import { cleanHeard, foodCue, hostSystemPrompt, localHostReply, type HostMessage } from '@/lib/hostReply';
 import type { Locale } from '@/i18n/routing';
 
 export const dynamic = 'force-dynamic';
@@ -51,11 +51,19 @@ export async function POST(request: Request) {
 
   const locale = asLocale(body.locale);
   const messages = Array.isArray(body.messages) ? body.messages : [];
-  const last = [...messages].reverse().find((msg) => msg.role === 'user')?.content?.trim() || '';
+  const lastRaw = [...messages].reverse().find((msg) => msg.role === 'user')?.content?.trim() || '';
+  const last = cleanHeard(lastRaw);
   const fallback = localHostReply(last, locale);
+  if (foodCue(last) || !last) {
+    return NextResponse.json({ text: fallback, source: 'board' });
+  }
+
+  const cleaned = messages.map((msg) =>
+    msg.role === 'user' ? { ...msg, content: cleanHeard(msg.content) } : msg,
+  );
 
   try {
-    const text = await grokReply(messages, locale);
+    const text = await grokReply(cleaned, locale);
     if (text) {
       return NextResponse.json({ text, source: 'host' });
     }

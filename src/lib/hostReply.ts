@@ -272,16 +272,54 @@ function hitBook(q: string) {
   return /\btable\b/.test(q) && /\b(want|need|please|hold|for \d|pour)\b/.test(q);
 }
 
+export function foodCue(q: string) {
+  return /\b(poutine|burger|benny|mac|hash|shake|milkshake|omelette|breakfast|wrap|club|salad|fries|kids|menu|special|coffee|beer|cocktail|lobster|pancake|benedict|homie|appetizer)\b/i.test(
+    q,
+  );
+}
+
 function hitPhone(q: string) {
-  return /\b(phone|call|number|telephone|téléphone|appeler)\b/.test(q);
+  if (foodCue(q)) return false;
+  return /\b(phone number|telephone|téléphone|appeler|call (you|the diner|us))\b/.test(q) || /^(phone|call|number)$/.test(q);
 }
 
 function hitEmail(q: string) {
-  return /\b(email|e-mail|courriel|jeff)\b/.test(q);
+  if (foodCue(q)) return false;
+  return /\b(email|e-mail|courriel|jeff@)\b/.test(q);
 }
 
 function hitWhere(q: string) {
-  return /\b(where|address|located|location|hintonburg|westboro|map|adresse|ou etes|où)\b/.test(q);
+  if (foodCue(q)) return false;
+  return (
+    /\b(address|located|hintonburg|westboro|your map|adresse)\b/.test(q) ||
+    /\bwhere\s+(are you|is (it|the diner)|do you sit|can i find)\b/.test(q) ||
+    /\bhow do i get there\b/.test(q)
+  );
+}
+
+const DINER_ASK =
+  /\b(poutine|burger|benny|mac|hash|menu|hours?|open|book|reserv|table|doordash|milkshake|shake|breakfast|omelette|wrap|club|salad|fries|kids|special|phone|call|address|wellington|diner|coffee|beer|cocktail|lobster|pancake)\b/i;
+
+export function cleanHeard(text: string) {
+  const trimmed = text.replace(/\s+/g, ' ').trim();
+  if (!trimmed) return '';
+  if (trimmed.length < 140) return trimmed;
+
+  const parts = trimmed
+    .split(/(?<=[.?!\n])\s+|(?=\b(?:do you|does it|what|where|when|how|can i|have you|got any|is there)\b)/i)
+    .map((part) => part.replace(/^["'\-–—\s]+|["'\s]+$/g, '').trim())
+    .filter((part) => part.length > 5 && DINER_ASK.test(part));
+
+  if (parts.length) {
+    const questions = parts.filter(
+      (part) =>
+        part.includes('?') || /^(do|does|what|where|when|how|have|got|is|are|can|any)\b/i.test(part),
+    );
+    const pool = questions.length ? questions : parts;
+    return pool.sort((a, b) => a.length - b.length)[0].slice(0, 180);
+  }
+
+  return trimmed.slice(0, 180);
 }
 
 function hitDash(q: string) {
@@ -319,7 +357,8 @@ function hitHi(q: string) {
 }
 
 export function localHostReply(question: string, locale: Locale): string {
-  const q = norm(question);
+  const heard = cleanHeard(question);
+  const q = norm(heard);
   const fr = locale === 'fr';
 
   if (!q) {
@@ -389,9 +428,9 @@ export function localHostReply(question: string, locale: Locale): string {
       : `The board has ${menu.length} sections and ${dishes(locale).length} priced dishes: ${sections}. Ask a section — burgers, poutine, bennies, mac — or a dish by name. Tax extra, prices may change.`;
   }
 
-  const toks = tokens(question);
+  const toks = tokens(heard);
   let ranked = dishes(locale)
-    .map((item) => ({ item, score: scoreDish(question, item) }))
+    .map((item) => ({ item, score: scoreDish(heard, item) }))
     .filter((row) => row.score >= 12)
     .sort((a, b) => b.score - a.score);
 
@@ -405,7 +444,7 @@ export function localHostReply(question: string, locale: Locale): string {
   }
 
   const section = matchSection(q);
-  const exact = ranked.find((row) => norm(row.item.title) === norm(expandQuery(question)));
+  const exact = ranked.find((row) => norm(row.item.title) === norm(expandQuery(heard)));
   if (exact) {
     return fr
       ? `Sur le tableau — ${exact.item.section}: ${formatDish(exact.item)} Prix hors taxes, sujets à changement.`

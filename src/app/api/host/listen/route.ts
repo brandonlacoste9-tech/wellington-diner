@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { menu } from '@/content/house';
+import { cleanHeard } from '@/lib/hostReply';
 
 export const dynamic = 'force-dynamic';
 
@@ -68,10 +69,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: `Listen ${res.status}` }, { status: 502 });
   }
 
-  const text = (data.text || '')
+  const rawText = (data.text || '')
     .replace(/\([^)]*\)/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+  const text = cleanHeard(rawText);
 
   if (!text) {
     return NextResponse.json({ error: 'Didn’t catch that.' }, { status: 422 });
