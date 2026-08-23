@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server';
+import { SocialLinks } from '@/components/layout/SocialLinks';
 import { house, shop } from '@/content/house';
 import { Link } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
@@ -34,12 +35,9 @@ export async function SiteFooter() {
           <Link href="/menu">{nav('menu')}</Link>
           <Link href="/hours">{nav('hours')}</Link>
           <Link href="/contact">{nav('contact')}</Link>
-          <a href={house.facebook} target="_blank" rel="noreferrer">
-            Facebook
-          </a>
-          <a href={house.instagram} target="_blank" rel="noreferrer">
-            Instagram
-          </a>
+          <div className="mt-4">
+            <SocialLinks tone="cream" />
+          </div>
         </div>
       </div>
       <p className="mx-auto max-w-[1280px] px-6 pb-6 text-xs text-white/50">{t('copy')}</p>

@@ -8,11 +8,18 @@ export const house = {
   phoneHref: 'tel:+16137987800',
   facebook: 'https://www.facebook.com/wellingtondiner/',
   instagram: 'https://www.instagram.com/thewellingtondiner/',
+  x: 'https://x.com/wellingtondiner',
   logo: '/logo.png',
   hero: '/hero.jpg',
   plate: '/food2.jpg',
   challenge: '/challenge.jpg',
 } as const;
+
+export const socials = [
+  { id: 'facebook', label: 'Facebook', href: house.facebook },
+  { id: 'instagram', label: 'Instagram', href: house.instagram },
+  { id: 'x', label: 'X', href: house.x },
+] as const;
 
 export const shop = {
   lines: {

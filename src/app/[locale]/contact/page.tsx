@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { SocialLinks } from '@/components/layout/SocialLinks';
 import { house, shop } from '@/content/house';
 import type { Locale } from '@/i18n/routing';
 
@@ -40,7 +41,10 @@ export default async function ContactPage({ params }: Props) {
         <a href={house.emailHref} className="mt-1 block font-bold">
           {house.email}
         </a>
-        <a href={shop.mapUrl} className="mt-3 inline-block text-sm font-extrabold uppercase">
+        <div className="mt-6">
+          <SocialLinks />
+        </div>
+        <a href={shop.mapUrl} className="mt-4 inline-block text-sm font-extrabold uppercase">
           {t('map')}
         </a>
       </article>

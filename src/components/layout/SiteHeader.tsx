@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { LocaleSwitch } from '@/components/layout/LocaleSwitch';
+import { SocialLinks } from '@/components/layout/SocialLinks';
 import { house } from '@/content/house';
 import { Link, usePathname } from '@/i18n/navigation';
 
@@ -90,6 +91,9 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center justify-end gap-3 md:gap-5">
+            <div className="hidden lg:block">
+              <SocialLinks compact />
+            </div>
             <a href={house.phoneHref} className="btn btn-red hidden py-2 sm:inline-flex">
               {t('call')}
             </a>
@@ -120,11 +124,14 @@ export function SiteHeader() {
                 </Link>
               ))}
             </nav>
-            <div className="flex items-center justify-between gap-4 px-6 py-6">
-              <a href={house.phoneHref} className="btn btn-red">
-                {house.phone}
-              </a>
-              <LocaleSwitch tone="light" />
+            <div className="flex flex-col gap-4 px-6 py-6">
+              <SocialLinks />
+              <div className="flex items-center justify-between gap-4">
+                <a href={house.phoneHref} className="btn btn-red">
+                  {house.phone}
+                </a>
+                <LocaleSwitch tone="light" />
+              </div>
             </div>
           </div>
         ) : null}
