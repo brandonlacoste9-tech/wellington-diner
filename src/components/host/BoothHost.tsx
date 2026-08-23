@@ -42,7 +42,7 @@ export function BoothHost() {
   const [messages, setMessages] = useState<Bubble[]>([
     { id: 'hello', role: 'assistant', content: t('hello') },
   ]);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const [mic, setMic] = useState<MicState>('idle');
   const [micNote, setMicNote] = useState('');
   const scroller = useRef<HTMLDivElement>(null);
@@ -50,11 +50,13 @@ export function BoothHost() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const objectUrl = useRef<string | null>(null);
   const messagesRef = useRef(messages);
+  const mutedRef = useRef(false);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
   const stopTimer = useRef<number | null>(null);
   messagesRef.current = messages;
+  mutedRef.current = muted;
 
   function stopVoice() {
     audioRef.current?.pause();
@@ -62,6 +64,16 @@ export function BoothHost() {
       URL.revokeObjectURL(objectUrl.current);
       objectUrl.current = null;
     }
+  }
+
+  function unlockAudio() {
+    const audio = audioRef.current ?? new Audio();
+    audioRef.current = audio;
+    audio.muted = true;
+    audio.src =
+      'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+    void audio.play().catch(() => undefined);
+    audio.muted = false;
   }
 
   function stopStream() {
@@ -74,23 +86,29 @@ export function BoothHost() {
   }
 
   async function speak(text: string) {
-    if (muted || !text) return;
+    if (mutedRef.current || !text) return;
     try {
       const res = await fetch('/api/host/speak', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, locale }),
       });
-      if (!res.ok) return;
+      if (!res.ok) {
+        setMicNote(t('voiceDown'));
+        return;
+      }
       const blob = await res.blob();
-      stopVoice();
+      if (objectUrl.current) URL.revokeObjectURL(objectUrl.current);
       const url = URL.createObjectURL(blob);
       objectUrl.current = url;
-      const audio = new Audio(url);
+      const audio = audioRef.current ?? new Audio();
       audioRef.current = audio;
+      audio.muted = false;
+      audio.src = url;
       await audio.play();
+      setMicNote('');
     } catch {
-      // Text still shows if voice is down.
+      setMicNote(t('tapSound'));
     }
   }
 
@@ -120,10 +138,6 @@ export function BoothHost() {
   }, [open]);
 
   useEffect(() => {
-    if (muted) stopVoice();
-  }, [muted]);
-
-  useEffect(() => {
     return () => {
       stopVoice();
       stopStream();
@@ -133,6 +147,7 @@ export function BoothHost() {
   async function ask(text: string) {
     const trimmed = text.trim();
     if (!trimmed || pending) return;
+    unlockAudio();
     const user: Bubble = { id: crypto.randomUUID(), role: 'user', content: trimmed };
     const next = [...messagesRef.current, user];
     setMessages(next);
@@ -194,6 +209,7 @@ export function BoothHost() {
       return;
     }
     setMicNote('');
+    unlockAudio();
     stopVoice();
     await new Promise((resolve) => window.setTimeout(resolve, 200));
     try {
@@ -251,7 +267,18 @@ export function BoothHost() {
             <button
               type="button"
               className="h-10 px-2 text-xs font-extrabold uppercase"
-              onClick={() => setMuted((value) => !value)}
+              onClick={() => {
+                const next = !muted;
+                mutedRef.current = next;
+                setMuted(next);
+                if (next) {
+                  stopVoice();
+                  return;
+                }
+                unlockAudio();
+                const last = [...messagesRef.current].reverse().find((msg) => msg.role === 'assistant');
+                if (last) void speak(last.content);
+              }}
             >
               {muted ? t('unmute') : t('mute')}
             </button>
@@ -334,7 +361,17 @@ export function BoothHost() {
         type="button"
         className="pointer-events-auto inline-flex items-center gap-2 border-4 border-ink bg-red px-3 py-2 text-white shadow-[4px_4px_0_#1c1c1c]"
         aria-expanded={open}
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => {
+          unlockAudio();
+          setOpen((was) => {
+            if (was) {
+              stopVoice();
+              return false;
+            }
+            if (!mutedRef.current) void speak(t('hello'));
+            return true;
+          });
+        }}
       >
         <HostFace />
         <span className="sr-only">{open ? t('close') : t('open')}</span>
