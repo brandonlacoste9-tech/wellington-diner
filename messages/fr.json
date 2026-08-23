@@ -15,7 +15,8 @@
     "strip": "Hintonburg · déjeuner toute la journée · table au téléphone"
   },
   "callbar": {
-    "line": "Les réservations se font au téléphone. Pas de table sur ce site."
+    "line": "Les réservations se font au téléphone. Pas de table sur ce site.",
+    "short": "Tables au téléphone — pas ici."
   },
   "home": {
     "kicker": "Ottawa · en famille depuis 2015",
@@ -32,13 +33,22 @@
     "menuMore": "Menu complet",
     "challengeTitle": "Défi Mac Daddy",
     "challengeLead": "40 minutes ou 49,99 $. Lait frappé Oreo, trois burgers, double poutine. Pas de partage, pas à emporter.",
-    "challengeCta": "Le défi"
+    "challengeCta": "Le défi",
+    "photosTitle": "De leur salle",
+    "photosLead": "Photos qu’ils publient sur le site — la devanture, les assiettes, le tableau.",
+    "altStorefront": "La devanture du Wellington Diner sur Wellington Street West, avec un hot rod devant.",
+    "altPlates": "Une personne du Wellington Diner avec burgers, macaroni, poutine et oignons.",
+    "altBenny": "Eggs Benny avec poivrons, hollandaise et patates au Wellington Diner.",
+    "altStacked": "Un burger empilé du Wellington Diner avec oignons et sauce.",
+    "altClub": "Un club sandwich empilé au Wellington Diner."
   },
   "menu": {
     "kicker": "fresh fare",
     "title": "Menu",
     "jump": "Aller à une section",
     "lead": "Tous les jours. Déjeuner toute la journée. Tous les plats tarifés de leur page menus, plus les specials de la semaine comme imprimés. Les extras Wix (goûts de lait frappé, cuisson des œufs) sont des options, pas des plats séparés.",
+    "asOf": "Copie de wellingtondiner.com/menus, 23 août 2026. Taxes en sus. Prix sujets à changement.",
+    "allergens": "Allergies et substitutions : demander à la cuisine. Nous n’inventons pas de tableau d’allergènes qu’ils n’impriment pas.",
     "note": "Prix hors taxes, sujets à changement. Copié de wellingtondiner.com/menus. Les specials sur place ont leurs règles."
   },
   "specials": {
@@ -63,6 +73,7 @@
     "lead": "Diner traditionnel à Ottawa. En famille depuis 2015.",
     "blend": "Ils écrivent un mélange de produits locaux et de classiques.",
     "address": "1385 Wellington Street West, Ottawa, ON K1Y 2X1 — comme leur schéma. Certaines cartes mettent K1Y 2X2. Nous gardons le code postal qu’ils publient.",
+    "windows": "Leur photo de devanture montre « wifi friendly » dans les fenêtres. Nous ne publions pas de mot de passe ni de politique qu’ils n’ont pas écrite.",
     "challenge": "Le défi Mac Daddy a sa propre page chez eux."
   },
   "contact": {
@@ -78,7 +89,7 @@
     "open": "Parler à l’hôte",
     "close": "Fermer",
     "title": "Hôte du booth",
-    "subtitle": "Aide du site — pas le personnel du diner",
+    "subtitle": "Aide du site — pas le personnel. Le son est coupé jusqu’à ce que tu l’ouvres.",
     "hello": "Hey ! Menu, heures, réservation : je peux pointer le tableau. Je ne retiens pas de table — ils prennent les réservations au téléphone : (613) 798-7800.",
     "placeholder": "Menu, heures, ou comment réserver…",
     "send": "Envoyer",

@@ -42,7 +42,7 @@ export function BoothHost() {
   const [messages, setMessages] = useState<Bubble[]>([
     { id: 'hello', role: 'assistant', content: t('hello') },
   ]);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
   const [mic, setMic] = useState<MicState>('idle');
   const [micNote, setMicNote] = useState('');
   const scroller = useRef<HTMLDivElement>(null);
@@ -109,9 +109,6 @@ export function BoothHost() {
   }, [open]);
 
   useEffect(() => {
-    if (open && !muted) {
-      void speak(t('hello'));
-    }
     if (!open) {
       stopVoice();
       if (recorderRef.current && recorderRef.current.state !== 'inactive') {
@@ -120,7 +117,6 @@ export function BoothHost() {
       stopStream();
       setMic('idle');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   useEffect(() => {
@@ -237,10 +233,10 @@ export function BoothHost() {
   }
 
   return (
-    <div className="pointer-events-none fixed right-4 z-50 bottom-[5.5rem] md:bottom-[5.75rem]">
+    <div className="pointer-events-none fixed right-3 z-50 bottom-[4.35rem] md:right-4 md:bottom-[5.75rem]">
       {open ? (
         <div
-          className="pointer-events-auto mb-3 flex h-[min(32rem,70dvh)] w-[min(24rem,calc(100vw-2rem))] flex-col overflow-hidden border-4 border-ink bg-cream text-ink shadow-[8px_8px_0_#1c1c1c]"
+          className="pointer-events-auto mb-3 flex h-[min(28rem,58dvh)] w-[min(24rem,calc(100vw-1.5rem))] flex-col overflow-hidden border-4 border-ink bg-cream text-ink shadow-[8px_8px_0_#1c1c1c] md:h-[min(32rem,70dvh)]"
           role="dialog"
           aria-modal="true"
           aria-label={t('title')}
@@ -341,7 +337,8 @@ export function BoothHost() {
         onClick={() => setOpen((value) => !value)}
       >
         <HostFace />
-        <span className="font-heading text-lg font-extrabold tracking-wide uppercase">{open ? t('close') : t('open')}</span>
+        <span className="sr-only">{open ? t('close') : t('open')}</span>
+        <span className="hidden font-heading text-lg font-extrabold tracking-wide uppercase sm:inline">{open ? t('close') : t('open')}</span>
       </button>
     </div>
   );

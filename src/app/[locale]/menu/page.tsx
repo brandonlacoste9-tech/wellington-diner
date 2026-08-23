@@ -24,6 +24,8 @@ export default async function MenuPage({ params }: Props) {
       <p className="text-[0.72rem] font-extrabold tracking-[0.22em] text-muted uppercase">{t('kicker')}</p>
       <h1 className="mt-2 text-6xl font-extrabold md:text-8xl">{t('title')}.</h1>
       <p className="mt-6 max-w-2xl text-lg text-muted">{t('lead')}</p>
+      <p className="mt-3 max-w-2xl text-sm font-extrabold uppercase tracking-wide text-red">{t('asOf')}</p>
+      <p className="mt-2 max-w-2xl text-sm text-muted">{t('allergens')}</p>
       <nav aria-label={t('jump')} className="mt-8 flex flex-wrap gap-2">
         {menu.map((section) => (
           <a

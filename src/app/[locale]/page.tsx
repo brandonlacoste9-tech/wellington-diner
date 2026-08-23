@@ -81,6 +81,30 @@ export default async function HomePage({ params }: Props) {
         </Link>
       </section>
 
+      <section className="border-t-4 border-ink bg-cream">
+        <div className="mx-auto max-w-[1280px] px-6 py-16">
+          <h2 className="text-5xl font-extrabold">{t('photosTitle')}</h2>
+          <p className="mt-4 max-w-2xl text-lg text-muted">{t('photosLead')}</p>
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <li className="relative min-h-[14rem] overflow-hidden border-4 border-ink">
+              <img src={house.storefront} alt={t('altStorefront')} className="absolute inset-0 h-full w-full object-cover" />
+            </li>
+            <li className="relative min-h-[14rem] overflow-hidden border-4 border-ink">
+              <img src={house.plates} alt={t('altPlates')} className="absolute inset-0 h-full w-full object-cover" />
+            </li>
+            <li className="relative min-h-[14rem] overflow-hidden border-4 border-ink">
+              <img src={house.benny} alt={t('altBenny')} className="absolute inset-0 h-full w-full object-cover" />
+            </li>
+            <li className="relative min-h-[14rem] overflow-hidden border-4 border-ink">
+              <img src={house.stacked} alt={t('altStacked')} className="absolute inset-0 h-full w-full object-cover" />
+            </li>
+            <li className="relative min-h-[14rem] overflow-hidden border-4 border-ink sm:col-span-2 lg:col-span-1">
+              <img src={house.club} alt={t('altClub')} className="absolute inset-0 h-full w-full object-cover" />
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <section className="border-y-4 border-red bg-red text-white">
         <div className="mx-auto grid max-w-[1280px] items-center gap-8 px-6 py-16 md:grid-cols-2">
           <div>

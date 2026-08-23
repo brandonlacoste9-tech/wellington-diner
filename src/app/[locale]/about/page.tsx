@@ -27,6 +27,7 @@ export default async function AboutPage({ params }: Props) {
       <p className="mt-6 text-lg text-muted">{t('lead')}</p>
       <p className="mt-6">{t('blend')}</p>
       <p className="mt-6">{t('address')}</p>
+      <p className="mt-4 text-sm text-muted">{t('windows')}</p>
       <p className="mt-3 text-sm">
         {shop.lines[lang].map((line) => (
           <span key={line} className="block">
@@ -36,8 +37,13 @@ export default async function AboutPage({ params }: Props) {
         <span className="block">{shop.postal}</span>
       </p>
       <p className="mt-6">{t('challenge')}</p>
-      <div className="relative mt-8 min-h-[14rem] overflow-hidden border-4 border-ink">
-        <img src={house.plate} alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <div className="mt-8 grid gap-3 sm:grid-cols-2">
+        <div className="relative min-h-[14rem] overflow-hidden border-4 border-ink">
+          <img src={house.storefront} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        </div>
+        <div className="relative min-h-[14rem] overflow-hidden border-4 border-ink">
+          <img src={house.plates} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        </div>
       </div>
       <div className="mt-10 flex flex-wrap gap-3">
         <a href={house.phoneHref} className="btn btn-red">

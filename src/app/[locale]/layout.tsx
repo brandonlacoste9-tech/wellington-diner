@@ -5,6 +5,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { BoothHost } from '@/components/host/BoothHost';
+import { RestaurantJsonLd } from '@/components/seo/RestaurantJsonLd';
 import { AlertBar } from '@/components/layout/AlertBar';
 import { CallBar } from '@/components/layout/CallBar';
 import { SiteFooter } from '@/components/layout/SiteFooter';
@@ -60,6 +61,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} className={`${heading.variable} ${body.variable}`}>
       <body className="relative flex min-h-dvh flex-col antialiased">
+        <RestaurantJsonLd />
         <NextIntlClientProvider messages={messages}>
           <div className="relative z-10 flex min-h-dvh flex-col">
             <SiteHeader />

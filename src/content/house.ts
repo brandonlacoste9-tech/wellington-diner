@@ -13,7 +13,13 @@ export const house = {
   logo: '/logo.png',
   hero: '/hero.jpg',
   plate: '/food2.jpg',
-  challenge: '/challenge.jpg',
+  plates: '/plates.jpg',
+  storefront: '/storefront.jpg',
+  benny: '/benny.jpg',
+  stacked: '/stacked.jpg',
+  club: '/club.jpg',
+  challenge: '/plates.jpg',
+  menuCopied: '2026-08-23',
 } as const;
 
 export const socials = [
