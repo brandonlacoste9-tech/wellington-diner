@@ -34,8 +34,40 @@ export function BoothHost() {
   const [messages, setMessages] = useState<Bubble[]>([
     { id: 'hello', role: 'assistant', content: t('hello') },
   ]);
+  const [muted, setMuted] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
   const field = useRef<HTMLInputElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const objectUrl = useRef<string | null>(null);
+
+  function stopVoice() {
+    audioRef.current?.pause();
+    if (objectUrl.current) {
+      URL.revokeObjectURL(objectUrl.current);
+      objectUrl.current = null;
+    }
+  }
+
+  async function speak(text: string) {
+    if (muted || !text) return;
+    try {
+      const res = await fetch('/api/host/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) return;
+      const blob = await res.blob();
+      stopVoice();
+      const url = URL.createObjectURL(blob);
+      objectUrl.current = url;
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      await audio.play();
+    } catch {
+      // Text still shows if voice is down.
+    }
+  }
 
   useEffect(() => {
     scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: 'smooth' });
@@ -50,6 +82,23 @@ export function BoothHost() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open]);
+
+  useEffect(() => {
+    if (open && !muted) {
+      void speak(t('hello'));
+    }
+    if (!open) stopVoice();
+    // First open uses the greeting already on screen.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  useEffect(() => {
+    if (muted) stopVoice();
+  }, [muted]);
+
+  useEffect(() => {
+    return () => stopVoice();
+  }, []);
 
   async function ask(text: string) {
     const trimmed = text.trim();
@@ -69,14 +118,9 @@ export function BoothHost() {
         }),
       });
       const data = (await res.json()) as { text?: string };
-      setMessages((cur) => [
-        ...cur,
-        {
-          id: crypto.randomUUID(),
-          role: 'assistant',
-          content: data.text || t('fallback'),
-        },
-      ]);
+      const reply = data.text || t('fallback');
+      setMessages((cur) => [...cur, { id: crypto.randomUUID(), role: 'assistant', content: reply }]);
+      void speak(reply);
     } catch {
       setMessages((cur) => [...cur, { id: crypto.randomUUID(), role: 'assistant', content: t('fallback') }]);
     } finally {
@@ -100,6 +144,13 @@ export function BoothHost() {
               <p className="font-heading text-xl font-extrabold leading-none">{t('title')}</p>
               <p className="truncate text-[0.7rem] text-white/70">{t('subtitle')}</p>
             </div>
+            <button
+              type="button"
+              className="h-10 px-2 text-xs font-extrabold uppercase"
+              onClick={() => setMuted((value) => !value)}
+            >
+              {muted ? t('unmute') : t('mute')}
+            </button>
             <button type="button" className="h-10 px-2 text-xs font-extrabold uppercase" onClick={() => setOpen(false)}>
               {t('close')}
             </button>

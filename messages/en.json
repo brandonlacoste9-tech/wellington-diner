@@ -84,6 +84,8 @@
     "send": "Send",
     "thinking": "Wiping the counter…",
     "fallback": "I'm stuck on this side of the glass. Call (613) 798-7800 — I still cannot book a table.",
+    "mute": "Mute",
+    "unmute": "Sound on",
     "fine": "I don't take reservations. Call",
     "chip": {
       "hours": "Hours",

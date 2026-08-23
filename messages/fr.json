@@ -84,6 +84,8 @@
     "send": "Envoyer",
     "thinking": "J’essuie le comptoir…",
     "fallback": "Je suis coincé de ce côté de la vitre. Appelle (613) 798-7800 — je ne peux toujours pas réserver.",
+    "mute": "Muet",
+    "unmute": "Son",
     "fine": "Je ne prends pas de réservations. Appelle",
     "chip": {
       "hours": "Heures",
