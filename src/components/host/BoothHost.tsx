@@ -8,7 +8,6 @@ import type { HostMessage } from '@/lib/hostReply';
 
 const chips = [
   { id: 'hours', prompt: { en: 'What are your hours?', fr: 'Quelles sont vos heures ?' } },
-  { id: 'book', prompt: { en: 'I want to book a table', fr: 'Je veux réserver une table' } },
   { id: 'mac', prompt: { en: 'Tell me about the Mac Daddy', fr: 'Parle-moi du Mac Daddy' } },
   { id: 'kids', prompt: { en: 'Kids eat free?', fr: 'Enfants mangent gratis ?' } },
   { id: 'dash', prompt: { en: 'Do you do DoorDash?', fr: 'Vous êtes sur DoorDash ?' } },

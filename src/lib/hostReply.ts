@@ -199,8 +199,8 @@ export function buildHostBrief(locale: Locale) {
 
   return `BUSINESS: ${house.name}
 ADDRESS: ${shop.lines[locale].join(', ')} ${shop.postal}
-PHONE (reservations): ${house.phone} (${house.phoneHref})
-EMAIL (messages, not bookings): ${house.email}
+PHONE: ${house.phone} (${house.phoneHref}) — printed for calling the diner. The website host does not take reservations.
+EMAIL: ${house.email}
 DOORDASH: ${house.doordash}
 FACEBOOK: ${house.facebook}
 INSTAGRAM: ${house.instagram}
@@ -211,12 +211,11 @@ HOURS (as printed on their home page, daily):
 ${hourLines}
 Breakfast all day. Schema/Google may skip Monday; their page prints Monday — keep Monday.
 
-BOOKING RULES:
-- Reservations are taken by PHONE only.
-- You cannot book, hold, confirm, or email a table.
-- Their Wix form is a message, not a table hold.
-- DoorDash is delivery, not a reservation.
-- Never ask for a name/party size as if taking a reservation. If they already gave one, tell them to repeat it on the phone.
+HOST SCOPE:
+- Answer MENU and HOURS only.
+- Do not take, offer, walk through, or upsell reservations.
+- If they ask to book a table, one short line: you don't take reservations; the diner's phone is ${house.phone}. Then stop.
+- DoorDash is delivery, not a table.
 
 CHALLENGE: Mac Daddy food challenge ${challenge.price}, ${challenge.minutes} minutes. ${challenge.body[locale]}
 They credit Beard Meets Food (YouTube channel BeardMeatsFood). The video of him doing it at this diner: ${house.challengeVideo}
@@ -238,13 +237,13 @@ PARKING/WIFI/PATIO: not printed on their diner site — say you don't know, call
 
 export function hostSystemPrompt(locale: Locale) {
   const lang = locale === 'fr' ? 'French' : 'English';
-  return `You are the Wellington Diner website booth host. Bubbly, short, diner-counter energy. You are NOT staff and you are NOT at 1385 Wellington. You cannot book tables.
+  return `You are the Wellington Diner website booth host. Bubbly, short, diner-counter energy. You are NOT staff and you are NOT at 1385 Wellington.
 
 Speak ${lang}. Keep dish names as printed in English. 2–6 sentences unless listing a few dishes.
 
-ONLY use FACTS in the brief. If it is not in the brief, say you don't know and point to ${house.phone}. Never invent prices, hours, emails, parking, allergens beyond the brief, or other delivery apps.
+You answer MENU and HOURS. You do not take reservations. Never ask for a name, date, or party size. If they ask to book: one line, diner phone ${house.phone}, then stop.
 
-If they want a reservation: refuse clearly, give ${house.phone}, remind them DoorDash is not a table.
+ONLY use FACTS in the brief. If it is not in the brief, say you don't know. Never invent prices, hours, emails, parking, or allergens.
 
 Prices exclude tax and may change.
 
@@ -366,32 +365,32 @@ export function localHostReply(question: string, locale: Locale): string {
 
   if (!q) {
     return fr
-      ? 'Pose-moi une question : menu, heures, ou comment réserver. Je ne peux pas retenir une table.'
-      : 'Ask me about the menu, hours, or how to book. I can’t hold a table.';
+      ? 'Pose-moi une question sur le menu ou les heures. Je ne prends pas de réservations.'
+      : 'Ask me about the menu or hours. I don’t take reservations.';
   }
 
   if (hitHi(q)) {
     return fr
-      ? `Hey, c’est l’hôte du site — pas quelqu’un au comptoir. Menu, heures, réservation : je peux pointer le tableau. Pour une table, ${house.phone}.`
-      : `Hey there — I’m the booth host on this site, not someone at the counter. Menu, hours, booking: I can point at the board. For a table, call ${house.phone}.`;
+      ? `Hey, c’est l’hôte du site — pas quelqu’un au comptoir. Menu et heures, d’après leur tableau. Je ne prends pas de réservations.`
+      : `Hey there — I’m the booth host on this site, not someone at the counter. Menu and hours from their board. I don’t take reservations.`;
   }
 
   if (hitBook(q) && !matchSection(q)) {
     return fr
-      ? `Je ne peux pas réserver, retenir, ni confirmer une table — je suis l’hôte du site. Ils écrivent : les réservations se font au téléphone. Appelle ${house.phone} et dis-leur la date et le nombre. Le formulaire Wix n’est pas une retenue. DoorDash, c’est la livraison, pas une table.`
-      : `I can’t book, hold, or confirm a table — I’m just the website host. They print: reservations are taken by phone. Call ${house.phone} and tell them when and how many. Their Wix form is a message, not a hold. DoorDash is delivery, not a reservation.`;
+      ? `Je ne prends pas de réservations. Le téléphone du diner est ${house.phone}.`
+      : `I don’t take reservations. The diner’s phone is ${house.phone}.`;
   }
 
   if (hitPhone(q) && !hitHours(q)) {
     return fr
-      ? `Le téléphone du diner : ${house.phone}. C’est comme ça qu’on réserve une table.`
-      : `The diner’s phone is ${house.phone}. That’s how you book a table.`;
+      ? `Le téléphone du diner : ${house.phone}.`
+      : `The diner’s phone is ${house.phone}.`;
   }
 
   if (hitEmail(q)) {
     return fr
-      ? `Le courriel sur le site : ${house.email}. Pour une table, téléphone ${house.phone} — le courriel n’est pas une réservation.`
-      : `Email on the site is ${house.email}. For a table, call ${house.phone} — email is not a booking.`;
+      ? `Le courriel sur le site : ${house.email}.`
+      : `Email on the site is ${house.email}.`;
   }
 
   if (hitWhere(q)) {
@@ -402,8 +401,8 @@ export function localHostReply(question: string, locale: Locale): string {
 
   if (hitDash(q)) {
     return fr
-      ? `Ils sont sur DoorDash : ${house.doordash}. Les heures de l’app peuvent fermer plus tôt que 21 h. Ce n’est pas une réservation de table. D’autres apps existent parfois ; on n’invente pas d’URL.`
-      : `They’re on DoorDash: ${house.doordash}. App hours can close earlier than 9 pm. That’s delivery, not a table. Other apps may exist; we don’t invent extra store URLs.`;
+      ? `Ils sont sur DoorDash : ${house.doordash}. Les heures de l’app peuvent fermer plus tôt que 21 h. D’autres apps existent parfois ; on n’invente pas d’URL.`
+      : `They’re on DoorDash: ${house.doordash}. App hours can close earlier than 9 pm. Other apps may exist; we don’t invent extra store URLs.`;
   }
 
   if (hitChallenge(q)) {
@@ -470,19 +469,19 @@ export function localHostReply(question: string, locale: Locale): string {
   if (ranked.length > 1) {
     const lines = ranked.map((row) => formatDish(row.item)).join(' · ');
     return fr
-      ? `Voici ce qui colle sur le tableau : ${lines} Prix hors taxes, sujets à changement. Pour une table : ${house.phone}.`
-      : `Closest matches on the board: ${lines} Tax extra, prices may change. For a table: ${house.phone}.`;
+      ? `Voici ce qui colle sur le tableau : ${lines} Prix hors taxes, sujets à changement.`
+      : `Closest matches on the board: ${lines} Tax extra, prices may change.`;
   }
 
   if (section) return listSection(section, locale, fr);
 
   if (hitHours(q)) {
     return fr
-      ? `Tableau imprimé : tous les jours de 8 h à 21 h. Déjeuner toute la journée. DoorDash ferme parfois plus tôt. Le schéma Google saute le lundi ; leur accueil l’imprime, alors on le garde. Pour une table, ${house.phone}.`
-      : `Printed board: every day, 8:00 am to 9:00 pm. Breakfast all day. DoorDash sometimes closes earlier. Google’s schema skips Monday; their home page prints it, so we keep Monday. For a table, call ${house.phone}.`;
+      ? `Tableau imprimé : tous les jours de 8 h à 21 h. Déjeuner toute la journée. DoorDash ferme parfois plus tôt. Le schéma Google saute le lundi ; leur accueil l’imprime, alors on le garde.`
+      : `Printed board: every day, 8:00 am to 9:00 pm. Breakfast all day. DoorDash sometimes closes earlier. Google’s schema skips Monday; their home page prints it, so we keep Monday.`;
   }
 
   return fr
-    ? `Je n’ai que ce qu’ils impriment. Essaie un plat (Wellington Benny, Lobster Mac, Phat Ass Burger), une section (burgers, poutine, mac), « heures », ou « réserver ». Pour le reste, ${house.phone}.`
-    : `I only know what they print. Try a dish (Wellington Benny, Lobster Mac, Phat Ass Burger), a section (burgers, poutine, mac), “hours”, or “book a table”. Anything else, call ${house.phone}.`;
+    ? `Je n’ai que ce qu’ils impriment. Essaie un plat (Wellington Benny, Lobster Mac, Phat Ass Burger), une section (burgers, poutine, mac), ou « heures ».`
+    : `I only know what they print. Try a dish (Wellington Benny, Lobster Mac, Phat Ass Burger), a section (burgers, poutine, mac), or “hours”.`;
 }
