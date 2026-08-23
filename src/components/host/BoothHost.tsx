@@ -12,6 +12,8 @@ const chips = [
   { id: 'mac', prompt: { en: 'Tell me about the Mac Daddy', fr: 'Parle-moi du Mac Daddy' } },
   { id: 'kids', prompt: { en: 'Kids eat free?', fr: 'Enfants mangent gratis ?' } },
   { id: 'dash', prompt: { en: 'Do you do DoorDash?', fr: 'Vous êtes sur DoorDash ?' } },
+  { id: 'burgers', prompt: { en: 'What burgers do you have?', fr: 'Quels burgers avez-vous ?' } },
+  { id: 'poutine', prompt: { en: 'What poutines are on the board?', fr: 'Quelles poutines avez-vous ?' } },
 ] as const;
 
 type Bubble = HostMessage & { id: string };
@@ -54,7 +56,7 @@ export function BoothHost() {
       const res = await fetch('/api/host/speak', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, locale }),
       });
       if (!res.ok) return;
       const blob = await res.blob();

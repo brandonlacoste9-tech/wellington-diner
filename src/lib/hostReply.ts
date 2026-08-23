@@ -33,6 +33,36 @@ function dishes(locale: Locale): FlatDish[] {
   );
 }
 
+const SECTION_ALIASES: Record<string, string[]> = {
+  beverages: ['beverage', 'beverages', 'drink', 'drinks', 'milkshake', 'milkshakes', 'shake', 'shakes', 'coffee', 'smoothie'],
+  'get-boozy': ['boozy', 'beer', 'cocktail', 'cocktails', 'wine', 'caesar', 'alcohol', 'booze', 'mimosa'],
+  'eggs-benny': ['benny', 'bennies', 'benedict', 'eggs benny', 'eggs benedict'],
+  'eggs-things': ['eggs and things', 'traditional breakfast', 'steak and eggs'],
+  'scrambles-omelettes': ['omelette', 'omelettes', 'scramble', 'scrambles'],
+  'our-breakfast-poutines-hashes': ['hash', 'hashes', 'breakfast poutine', 'stoner'],
+  'light-healthy': ['salad', 'salads', 'healthy', 'light'],
+  'breakfast-clubs-wraps': ['breakfast club', 'breakfast wrap', 'burrito'],
+  yummies: ['pancake', 'pancakes', 'french toast', 'yummies', 'sweet'],
+  'tasty-apps': ['app', 'apps', 'appetizer', 'appetizers', 'starter', 'starters', 'fries', 'rings'],
+  mains: ['mains', 'dinner', 'fish and chips', 'quesadilla'],
+  'mac-n-cheese-house-specialty': ['mac', 'macs', 'macaroni', 'mac and cheese', 'mac n cheese'],
+  'our-famous-poutines': ['poutine', 'poutines'],
+  'homemade-burger': ['burger', 'burgers', 'hamburger', 'hamburgers'],
+  'our-signature-clubs-wraps': ['club', 'clubs', 'wrap', 'wraps', 'sandwich', 'sandwiches'],
+  'kids-menu': ['kids', 'kid', 'children', 'child'],
+  'weekly-specials': ['weekly', 'this week'],
+};
+
+function expandQuery(q: string) {
+  return q
+    .replace(/\beggs?\s*benedicts?\b/gi, 'benny')
+    .replace(/\bmilk\s*shakes?\b/gi, 'milkshake')
+    .replace(/\bmac(?:aroni)?\s*(?:and|&|n|'n)?\s*cheese\b/gi, 'mac')
+    .replace(/\bhome\s*fries\b/gi, 'homies')
+    .replace(/\bappetizers?\b/gi, 'apps')
+    .replace(/\bstarters?\b/gi, 'apps');
+}
+
 const STOP = new Set([
   'the',
   'and',
@@ -90,13 +120,47 @@ const STOP = new Set([
 ]);
 
 function tokens(q: string) {
-  return norm(q)
+  return norm(expandQuery(q))
     .split(' ')
     .filter((t) => t.length > 2 && !STOP.has(t));
 }
 
+function matchSection(q: string) {
+  const nq = norm(expandQuery(q));
+  const toks = tokens(q);
+  for (const section of menu) {
+    const title = norm(section.title.en);
+    if (nq === title || nq.includes(title)) return section;
+  }
+  let best: (typeof menu)[number] | null = null;
+  let bestHits = 0;
+  for (const section of menu) {
+    const aliases = SECTION_ALIASES[section.id] ?? [];
+    const hits = aliases.filter((alias) => nq === alias || nq.includes(alias) || toks.includes(alias)).length;
+    if (hits > bestHits) {
+      bestHits = hits;
+      best = section;
+    }
+  }
+  const categoryCue = /\b(what|which|any|your|got|have|list|show|des|les|vos)\b/.test(nq);
+  if (best && bestHits > 0 && (toks.length <= 1 || categoryCue)) return best;
+  return null;
+}
+
+function listSection(section: (typeof menu)[number], locale: Locale, fr: boolean) {
+  const note = 'note' in section && section.note ? ` ${section.note[locale]}` : '';
+  const rows = section.items
+    .slice(0, 10)
+    .map((item) => `${item.title.en}${item.price ? ` ${item.price}` : ''}`)
+    .join('. ');
+  const more = section.items.length > 10 ? (fr ? ' Et d’autres sur le menu.' : ' And more on the menu page.') : '';
+  return fr
+    ? `${section.title.en}.${note} Sur le tableau : ${rows}.${more} Prix hors taxes, sujets à changement.`
+    : `${section.title.en}.${note} On the board: ${rows}.${more} Tax extra, prices may change.`;
+}
+
 function scoreDish(q: string, dish: FlatDish) {
-  const nq = norm(q);
+  const nq = norm(expandQuery(q));
   const nt = norm(dish.title);
   const nb = norm(dish.body);
   const ns = norm(dish.section);
@@ -188,15 +252,24 @@ ${buildHostBrief(locale)}`;
 }
 
 function hitHours(q: string) {
-  return /\b(hour|hours|open|opening|close|closed|closing|times|today|tonight|monday|tuesday|wednesday|thursday|friday|saturday|sunday|heures|ouvert|ouverte|ferme|fermes|horaire)\b/.test(
+  const timeWord = /\b(hour|hours|open|opening|close|closed|closing|times|today|tonight|heures|ouvert|ouverte|ferme|fermes|horaire)\b/.test(
     q,
   );
+  const dayOnly =
+    /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\b/.test(
+      q,
+    );
+  const foodish = /\b(mac|burger|benny|poutine|shake|hash|special|kids eat|breakfast|menu)\b/.test(q);
+  if (timeWord) return true;
+  if (dayOnly && !foodish) return true;
+  return false;
 }
 
 function hitBook(q: string) {
-  return /\b(reserv|book|booking|table|hold|appointment|party of|reserve|reserver|reservation|reservations|réserver|résevation|réservation)\b/.test(
-    q,
-  );
+  if (/\b(reserv|book|booking|appointment|party of|reserve|reserver|reservation|reservations|réserver|réservation)\b/.test(q)) {
+    return true;
+  }
+  return /\btable\b/.test(q) && /\b(want|need|please|hold|for \d|pour)\b/.test(q);
 }
 
 function hitPhone(q: string) {
@@ -235,7 +308,10 @@ function hitKids(q: string) {
 }
 
 function hitMenu(q: string) {
-  return /^(menu|the menu|full menu|carte|le menu)$/.test(q) || /\b(what.?s on the menu|au menu)\b/.test(q);
+  return (
+    /^(menu|the menu|full menu|carte|le menu)$/.test(q) ||
+    /\b(what.?s on the menu|what do you serve|what do you have to eat|au menu|quoi manger)\b/.test(q)
+  );
 }
 
 function hitHi(q: string) {
@@ -258,20 +334,13 @@ export function localHostReply(question: string, locale: Locale): string {
       : `Hey there — I’m the booth host on this site, not someone at the counter. Menu, hours, booking: I can point at the board. For a table, call ${house.phone}.`;
   }
 
-  if (hitBook(q)) {
+  if (hitBook(q) && !matchSection(q)) {
     return fr
       ? `Je ne peux pas réserver, retenir, ni confirmer une table — je suis l’hôte du site. Ils écrivent : les réservations se font au téléphone. Appelle ${house.phone} et dis-leur la date et le nombre. Le formulaire Wix n’est pas une retenue. DoorDash, c’est la livraison, pas une table.`
       : `I can’t book, hold, or confirm a table — I’m just the website host. They print: reservations are taken by phone. Call ${house.phone} and tell them when and how many. Their Wix form is a message, not a hold. DoorDash is delivery, not a reservation.`;
   }
 
-  if (hitHours(q)) {
-    const board = hoursRows.map((row) => `${row.day[locale]} ${row.hours[locale]}`).join('; ');
-    return fr
-      ? `Tableau imprimé : tous les jours 8 h – 21 h (${board}). Déjeuner toute la journée. Les apps (DoorDash) ferment parfois plus tôt. Le schéma Google saute le lundi ; leur accueil l’imprime, alors on le garde.`
-      : `Printed board: daily 8:00 am–9:00 pm (${board}). Breakfast all day. Apps like DoorDash sometimes close earlier. Google’s schema skips Monday; their home page prints it, so we keep Monday.`;
-  }
-
-  if (hitPhone(q)) {
+  if (hitPhone(q) && !hitHours(q)) {
     return fr
       ? `Le téléphone du diner : ${house.phone}. C’est comme ça qu’on réserve une table.`
       : `The diner’s phone is ${house.phone}. That’s how you book a table.`;
@@ -310,17 +379,14 @@ export function localHostReply(question: string, locale: Locale): string {
 
   if (hitKids(q)) {
     const kids = menu.find((section) => section.id === 'kids-menu');
-    const names = kids?.items.map((item) => `${item.title.en} ${item.price}`).join('; ');
-    return fr
-      ? `Menu kids (noms comme imprimés) : ${names}. Lundi : enfants mangent gratis après 16 h avec repas et boisson adulte (café/thé exclus, sur place).`
-      : `Kids menu as printed: ${names}. Monday kids eat free after 4 pm with an adult meal and beverage (coffee/tea excluded, in-house).`;
+    if (kids) return listSection(kids, locale, fr);
   }
 
   if (hitMenu(q)) {
     const sections = menu.map((section) => section.title.en).join(', ');
     return fr
-      ? `Le tableau a ${menu.length} sections, ${dishes(locale).length} items : ${sections}. Demande un plat par nom. Prix hors taxes, sujets à changement.`
-      : `The board has ${menu.length} sections and ${dishes(locale).length} items: ${sections}. Ask a dish by name. Prices exclude tax and may change.`;
+      ? `Le tableau a ${menu.length} sections, ${dishes(locale).length} plats tarifés : ${sections}. Demande une section (burgers, poutine, benny, mac) ou un plat par nom. Prix hors taxes, sujets à changement.`
+      : `The board has ${menu.length} sections and ${dishes(locale).length} priced dishes: ${sections}. Ask a section — burgers, poutine, bennies, mac — or a dish by name. Tax extra, prices may change.`;
   }
 
   const toks = tokens(question);
@@ -336,6 +402,18 @@ export function localHostReply(question: string, locale: Locale): string {
 
   if (ranked.length > 1 && ranked[0].score >= ranked[1].score + 16) {
     ranked = [ranked[0]];
+  }
+
+  const section = matchSection(q);
+  const exact = ranked.find((row) => norm(row.item.title) === norm(expandQuery(question)));
+  if (exact) {
+    return fr
+      ? `Sur le tableau — ${exact.item.section}: ${formatDish(exact.item)} Prix hors taxes, sujets à changement.`
+      : `On the board — ${exact.item.section}: ${formatDish(exact.item)} Tax extra, prices may change.`;
+  }
+
+  if (section && toks.length <= 2) {
+    return listSection(section, locale, fr);
   }
 
   ranked = ranked.slice(0, 3);
@@ -354,7 +432,15 @@ export function localHostReply(question: string, locale: Locale): string {
       : `Closest matches on the board: ${lines} Tax extra, prices may change. For a table: ${house.phone}.`;
   }
 
+  if (section) return listSection(section, locale, fr);
+
+  if (hitHours(q)) {
+    return fr
+      ? `Tableau imprimé : tous les jours de 8 h à 21 h. Déjeuner toute la journée. DoorDash ferme parfois plus tôt. Le schéma Google saute le lundi ; leur accueil l’imprime, alors on le garde. Pour une table, ${house.phone}.`
+      : `Printed board: every day, 8:00 am to 9:00 pm. Breakfast all day. DoorDash sometimes closes earlier. Google’s schema skips Monday; their home page prints it, so we keep Monday. For a table, call ${house.phone}.`;
+  }
+
   return fr
-    ? `Je n’ai que ce qu’ils impriment. Essaie un nom de plat, « heures », ou « réserver ». Pour le reste, ${house.phone}. Je ne retiens pas de table.`
-    : `I only know what they print. Try a dish name, “hours”, or “book a table”. Anything else, call ${house.phone}. I can’t hold a booth.`;
+    ? `Je n’ai que ce qu’ils impriment. Essaie un plat (Wellington Benny, Lobster Mac, Phat Ass Burger), une section (burgers, poutine, mac), « heures », ou « réserver ». Pour le reste, ${house.phone}.`
+    : `I only know what they print. Try a dish (Wellington Benny, Lobster Mac, Phat Ass Burger), a section (burgers, poutine, mac), “hours”, or “book a table”. Anything else, call ${house.phone}.`;
 }

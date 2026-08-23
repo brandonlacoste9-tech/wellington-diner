@@ -1,16 +1,10 @@
 import { NextResponse } from 'next/server';
+import { forSpeech } from '@/lib/speakText';
+import type { Locale } from '@/i18n/routing';
 
 export const dynamic = 'force-dynamic';
 
 const DEFAULT_VOICE = 'cgSgspJ2msm6clMCkdW9'; // Jessica — playful, bright, warm
-
-function forSpeech(text: string) {
-  return text
-    .replace(/https?:\/\/\S+/gi, 'the link on the screen')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 900);
-}
 
 export async function POST(request: Request) {
   const key = process.env.ELEVENLABS_API_KEY;
@@ -18,14 +12,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Voice is off — no ElevenLabs key.' }, { status: 503 });
   }
 
-  let body: { text?: string };
+  let body: { text?: string; locale?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: 'Bad JSON' }, { status: 400 });
   }
 
-  const text = forSpeech(typeof body.text === 'string' ? body.text : '');
+  const locale: Locale = body.locale === 'fr' ? 'fr' : 'en';
+  const text = forSpeech(typeof body.text === 'string' ? body.text : '', locale);
   if (!text) {
     return NextResponse.json({ error: 'Nothing to say.' }, { status: 400 });
   }
@@ -40,11 +35,12 @@ export async function POST(request: Request) {
     },
     body: JSON.stringify({
       text,
-      model_id: 'eleven_flash_v2_5',
+      model_id: 'eleven_multilingual_v2',
+      apply_text_normalization: 'on',
       voice_settings: {
-        stability: 0.42,
-        similarity_boost: 0.78,
-        style: 0.45,
+        stability: 0.45,
+        similarity_boost: 0.8,
+        style: 0.35,
         use_speaker_boost: true,
       },
     }),
@@ -60,6 +56,7 @@ export async function POST(request: Request) {
     headers: {
       'Content-Type': 'audio/mpeg',
       'Cache-Control': 'no-store',
+      'X-Spoken-Text': encodeURIComponent(text),
     },
   });
 }

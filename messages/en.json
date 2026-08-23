@@ -92,7 +92,9 @@
       "book": "Book a table",
       "mac": "Mac Daddy",
       "kids": "Kids eat free",
-      "dash": "DoorDash"
+      "dash": "DoorDash",
+      "burgers": "Burgers",
+      "poutine": "Poutine"
     }
   },
   "footer": {
