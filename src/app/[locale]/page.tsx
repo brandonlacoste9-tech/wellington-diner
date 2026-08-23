@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { challenge, house, hoursRows, menu } from '@/content/house';
+import { challenge, dish, house, hoursRows } from '@/content/house';
 import { Link } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
 
@@ -13,12 +13,12 @@ export default async function HomePage({ params }: Props) {
   const t = await getTranslations('home');
   const lang = locale as Locale;
   const picks = [
-    menu[0].items[0],
-    menu[0].items[1],
-    menu[1].items[1],
-    menu[2].items[0],
-    menu[2].items[2],
-    menu[3].items[0],
+    dish('stoner-hash'),
+    dish('the-wellington-benny'),
+    dish('the-mac-daddy'),
+    dish('the-phat-ass-burger'),
+    dish('lobster-mac'),
+    dish('carnivore-poutine'),
   ];
 
   return (

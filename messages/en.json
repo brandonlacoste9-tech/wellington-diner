@@ -27,7 +27,7 @@
     "hoursTitle": "Open daily 8 am–9 pm",
     "hoursLead": "As printed on their home page. Their schema lists the same window but skips Monday — we print the seven-day board they show.",
     "menuTitle": "On the board",
-    "menuLead": "Benny, hashes, milkshakes, weekly specials. Prices from their live menu. Tax extra. Prices may change.",
+    "menuLead": "A few plates from the full board — hashes, bennies, burgers, mac. Tax extra. Prices may change.",
     "menuMore": "Full menu",
     "challengeTitle": "Mac Daddy challenge",
     "challengeLead": "40 minutes or it's $49.99. Oreo shake, three Mac Daddy burgers, double homie poutine. No splitting, no take-home.",
@@ -36,8 +36,9 @@
   "menu": {
     "kicker": "fresh fare",
     "title": "Menu",
-    "lead": "Served daily. Breakfast all day. A slice of their priced board — not every extra and modifier.",
-    "note": "Prices exclude tax and may change. In-house specials have their own rules."
+    "jump": "Jump to a section",
+    "lead": "Served daily. Breakfast all day. Every priced dish from their live menus page, plus weekly specials as printed. Wix extras (shake flavours, egg style) are modifiers, not separate dishes.",
+    "note": "Prices exclude tax and may change. Copied from wellingtondiner.com/menus. In-house specials have their own rules."
   },
   "specials": {
     "kicker": "this week",

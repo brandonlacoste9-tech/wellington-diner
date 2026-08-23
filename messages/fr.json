@@ -27,7 +27,7 @@
     "hoursTitle": "Tous les jours 8 h – 21 h",
     "hoursLead": "Comme sur leur accueil. Le schéma Google saute le lundi — nous gardons les sept jours qu’ils affichent.",
     "menuTitle": "Sur le menu",
-    "menuLead": "Benny, hashes, laits frappés, specials. Prix de leur menu en ligne. Taxes en sus. Prix sujets à changement.",
+    "menuLead": "Quelques assiettes du tableau — hashes, bennies, burgers, mac. Taxes en sus. Prix sujets à changement.",
     "menuMore": "Menu complet",
     "challengeTitle": "Défi Mac Daddy",
     "challengeLead": "40 minutes ou 49,99 $. Lait frappé Oreo, trois burgers, double poutine. Pas de partage, pas à emporter.",
@@ -36,8 +36,9 @@
   "menu": {
     "kicker": "fresh fare",
     "title": "Menu",
-    "lead": "Tous les jours. Déjeuner toute la journée. Un extrait de leur carte — pas tous les extras.",
-    "note": "Prix hors taxes, sujets à changement. Les specials sur place ont leurs règles."
+    "jump": "Aller à une section",
+    "lead": "Tous les jours. Déjeuner toute la journée. Tous les plats tarifés de leur page menus, plus les specials de la semaine comme imprimés. Les extras Wix (goûts de lait frappé, cuisson des œufs) sont des options, pas des plats séparés.",
+    "note": "Prix hors taxes, sujets à changement. Copié de wellingtondiner.com/menus. Les specials sur place ont leurs règles."
   },
   "specials": {
     "kicker": "cette semaine",

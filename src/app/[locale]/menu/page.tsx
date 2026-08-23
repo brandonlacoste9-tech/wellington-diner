@@ -24,17 +24,31 @@ export default async function MenuPage({ params }: Props) {
       <p className="text-[0.72rem] font-extrabold tracking-[0.22em] text-muted uppercase">{t('kicker')}</p>
       <h1 className="mt-2 text-6xl font-extrabold md:text-8xl">{t('title')}.</h1>
       <p className="mt-6 max-w-2xl text-lg text-muted">{t('lead')}</p>
+      <nav aria-label={t('jump')} className="mt-8 flex flex-wrap gap-2">
+        {menu.map((section) => (
+          <a
+            key={section.id}
+            href={`#${section.id}`}
+            className="border-2 border-ink bg-cream px-3 py-1.5 text-[0.72rem] font-extrabold tracking-[0.08em] uppercase"
+          >
+            {section.title[lang]}
+          </a>
+        ))}
+      </nav>
       {menu.map((section) => (
-        <div key={section.id} id={section.id} className="mt-14">
+        <div key={section.id} id={section.id} className="mt-14 scroll-mt-28">
           <h2 className="border-b-4 border-red pb-2 text-3xl font-extrabold">{section.title[lang]}</h2>
+          {'note' in section && section.note ? (
+            <p className="mt-3 max-w-3xl text-sm text-muted">{section.note[lang]}</p>
+          ) : null}
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
             {section.items.map((item) => (
               <li key={item.id} className="border-2 border-ink p-4">
                 <div className="flex items-baseline justify-between gap-3">
                   <h3 className="text-lg font-extrabold normal-case tracking-normal">{item.title[lang]}</h3>
-                  <span className="font-extrabold text-red">{item.price}</span>
+                  {item.price ? <span className="shrink-0 font-extrabold text-red">{item.price}</span> : null}
                 </div>
-                <p className="mt-2 text-sm text-muted">{item.body[lang]}</p>
+                {item.body[lang] ? <p className="mt-2 text-sm text-muted">{item.body[lang]}</p> : null}
               </li>
             ))}
           </ul>
