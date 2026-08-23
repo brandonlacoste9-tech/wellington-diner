@@ -86,6 +86,12 @@
     "fallback": "Je suis coincé de ce côté de la vitre. Appelle (613) 798-7800 — je ne peux toujours pas réserver.",
     "mute": "Muet",
     "unmute": "Son",
+    "mic": "Parler",
+    "listening": "J’écoute…",
+    "transcribing": "Je prends ça…",
+    "micError": "Micro bloqué — autorise-le dans le navigateur, ou écris.",
+    "micEmpty": "J’ai pas saisi. Réessaie ?",
+    "micUnsupported": "Ce navigateur ne me laisse pas t’entendre. Écris plutôt.",
     "fine": "Je ne prends pas de réservations. Appelle",
     "chip": {
       "hours": "Heures",

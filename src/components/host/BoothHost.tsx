@@ -17,6 +17,7 @@ const chips = [
 ] as const;
 
 type Bubble = HostMessage & { id: string };
+type MicState = 'idle' | 'recording' | 'transcribing';
 
 function HostFace() {
   return (
@@ -25,6 +26,11 @@ function HostFace() {
       <span className="font-heading text-lg font-extrabold leading-none">Hi</span>
     </span>
   );
+}
+
+function pickMime() {
+  const types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'];
+  return types.find((type) => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(type)) || '';
 }
 
 export function BoothHost() {
@@ -37,16 +43,33 @@ export function BoothHost() {
     { id: 'hello', role: 'assistant', content: t('hello') },
   ]);
   const [muted, setMuted] = useState(false);
+  const [mic, setMic] = useState<MicState>('idle');
+  const [micNote, setMicNote] = useState('');
   const scroller = useRef<HTMLDivElement>(null);
   const field = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const objectUrl = useRef<string | null>(null);
+  const messagesRef = useRef(messages);
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
+  const stopTimer = useRef<number | null>(null);
+  messagesRef.current = messages;
 
   function stopVoice() {
     audioRef.current?.pause();
     if (objectUrl.current) {
       URL.revokeObjectURL(objectUrl.current);
       objectUrl.current = null;
+    }
+  }
+
+  function stopStream() {
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    if (stopTimer.current) {
+      window.clearTimeout(stopTimer.current);
+      stopTimer.current = null;
     }
   }
 
@@ -89,8 +112,14 @@ export function BoothHost() {
     if (open && !muted) {
       void speak(t('hello'));
     }
-    if (!open) stopVoice();
-    // First open uses the greeting already on screen.
+    if (!open) {
+      stopVoice();
+      if (recorderRef.current && recorderRef.current.state !== 'inactive') {
+        recorderRef.current.stop();
+      }
+      stopStream();
+      setMic('idle');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
@@ -99,15 +128,19 @@ export function BoothHost() {
   }, [muted]);
 
   useEffect(() => {
-    return () => stopVoice();
+    return () => {
+      stopVoice();
+      stopStream();
+    };
   }, []);
 
   async function ask(text: string) {
     const trimmed = text.trim();
     if (!trimmed || pending) return;
     const user: Bubble = { id: crypto.randomUUID(), role: 'user', content: trimmed };
-    const next = [...messages, user];
+    const next = [...messagesRef.current, user];
     setMessages(next);
+    messagesRef.current = next;
     setInput('');
     setPending(true);
     try {
@@ -127,6 +160,71 @@ export function BoothHost() {
       setMessages((cur) => [...cur, { id: crypto.randomUUID(), role: 'assistant', content: t('fallback') }]);
     } finally {
       setPending(false);
+    }
+  }
+
+  async function finishRecording(blob: Blob) {
+    setMic('transcribing');
+    setMicNote(t('transcribing'));
+    try {
+      const body = new FormData();
+      body.append('file', blob, blob.type.includes('mp4') ? 'talk.mp4' : 'talk.webm');
+      body.append('locale', locale);
+      const res = await fetch('/api/host/listen', { method: 'POST', body });
+      const data = (await res.json()) as { text?: string };
+      const heard = data.text?.trim();
+      if (!res.ok || !heard) {
+        setMicNote(t('micEmpty'));
+        return;
+      }
+      setInput(heard);
+      setMicNote('');
+      await ask(heard);
+    } catch {
+      setMicNote(t('micEmpty'));
+    } finally {
+      setMic('idle');
+    }
+  }
+
+  async function toggleMic() {
+    if (pending || mic === 'transcribing') return;
+    if (mic === 'recording') {
+      recorderRef.current?.stop();
+      return;
+    }
+    if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') {
+      setMicNote(t('micUnsupported'));
+      return;
+    }
+    setMicNote('');
+    stopVoice();
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+      const mime = pickMime();
+      const recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+      recorderRef.current = recorder;
+      chunksRef.current = [];
+      recorder.ondataavailable = (event) => {
+        if (event.data.size) chunksRef.current.push(event.data);
+      };
+      recorder.onstop = () => {
+        const blob = new Blob(chunksRef.current, { type: recorder.mimeType || 'audio/webm' });
+        stopStream();
+        recorderRef.current = null;
+        void finishRecording(blob);
+      };
+      recorder.start();
+      setMic('recording');
+      setMicNote(t('listening'));
+      stopTimer.current = window.setTimeout(() => {
+        if (recorder.state !== 'inactive') recorder.stop();
+      }, 15000);
+    } catch {
+      setMicNote(t('micError'));
+      stopStream();
+      setMic('idle');
     }
   }
 
@@ -199,16 +297,28 @@ export function BoothHost() {
               ref={field}
               value={input}
               onChange={(event) => setInput(event.target.value)}
-              placeholder={t('placeholder')}
+              placeholder={mic === 'recording' ? t('listening') : t('placeholder')}
               className="min-w-0 flex-1 border-2 border-ink bg-white px-3 py-2 text-sm outline-none"
               maxLength={500}
               autoComplete="off"
+              disabled={mic !== 'idle'}
             />
-            <button type="submit" className="btn btn-red py-2" disabled={pending}>
+            <button
+              type="button"
+              className={mic === 'recording' ? 'btn btn-red py-2 animate-pulse' : 'btn btn-chrome py-2'}
+              onClick={() => void toggleMic()}
+              disabled={pending || mic === 'transcribing'}
+              aria-pressed={mic === 'recording'}
+              aria-label={t('mic')}
+            >
+              {mic === 'recording' ? t('listening') : mic === 'transcribing' ? t('transcribing') : t('mic')}
+            </button>
+            <button type="submit" className="btn btn-red py-2" disabled={pending || mic !== 'idle'}>
               {t('send')}
             </button>
           </form>
           <p className="bg-paper px-3 pb-2 text-[0.7rem] text-muted">
+            {micNote ? <span className="mr-2 font-extrabold text-red">{micNote}</span> : null}
             {t('fine')}{' '}
             <a href={house.phoneHref} className="font-extrabold text-red">
               {house.phone}

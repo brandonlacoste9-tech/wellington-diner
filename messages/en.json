@@ -86,6 +86,12 @@
     "fallback": "I'm stuck on this side of the glass. Call (613) 798-7800 — I still cannot book a table.",
     "mute": "Mute",
     "unmute": "Sound on",
+    "mic": "Talk",
+    "listening": "Listening…",
+    "transcribing": "Catching that…",
+    "micError": "Mic blocked — allow it in the browser, or type.",
+    "micEmpty": "Didn’t catch that. Try again?",
+    "micUnsupported": "This browser won’t let me hear you. Type instead.",
     "fine": "I don't take reservations. Call",
     "chip": {
       "hours": "Hours",
