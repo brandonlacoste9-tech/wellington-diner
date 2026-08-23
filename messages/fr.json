@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "site": "The Wellington Diner",
+    "description": "Diner d’Ottawa, 1385 Wellington Street West. Déjeuner toute la journée. Tables au téléphone : (613) 798-7800."
+  },
+  "nav": {
+    "skip": "Aller au contenu",
+    "menu": "Menu",
+    "close": "Fermer",
+    "call": "Réserver au téléphone",
+    "specials": "Specials",
+    "hours": "Heures",
+    "about": "À propos",
+    "contact": "Contact",
+    "strip": "Hintonburg · déjeuner toute la journée · table au téléphone"
+  },
+  "callbar": {
+    "line": "Les réservations se font au téléphone. Pas de table sur ce site."
+  },
+  "home": {
+    "kicker": "Ottawa · en famille depuis 2015",
+    "title": "Le diner du quartier.",
+    "lead": "Déjeuner, dîner, souper, et entre les deux. Ils écrivent : entrez, asseyez-vous, mangez.",
+    "ctaCall": "Appeler (613) 798-7800",
+    "ctaMenu": "Le menu",
+    "heroAlt": "Un burger et des frites au Wellington Diner.",
+    "hoursTitle": "Tous les jours 8 h – 21 h",
+    "hoursLead": "Comme sur leur accueil. Le schéma Google saute le lundi — nous gardons les sept jours qu’ils affichent.",
+    "menuTitle": "Sur le menu",
+    "menuLead": "Benny, hashes, laits frappés, specials. Prix de leur menu en ligne. Taxes en sus. Prix sujets à changement.",
+    "menuMore": "Menu complet",
+    "challengeTitle": "Défi Mac Daddy",
+    "challengeLead": "40 minutes ou 49,99 $. Lait frappé Oreo, trois burgers, double poutine. Pas de partage, pas à emporter.",
+    "challengeCta": "Le défi"
+  },
+  "menu": {
+    "kicker": "fresh fare",
+    "title": "Menu",
+    "lead": "Tous les jours. Déjeuner toute la journée. Un extrait de leur carte — pas tous les extras.",
+    "note": "Prix hors taxes, sujets à changement. Les specials sur place ont leurs règles."
+  },
+  "specials": {
+    "kicker": "cette semaine",
+    "title": "Specials",
+    "lead": "Comme sur leur menu. Sur place seulement là où ils le disent.",
+    "challengeTitle": "Défi Mac Daddy",
+    "challengeCaption": "Ils créditent Beard Meets Food."
+  },
+  "hours": {
+    "kicker": "le tableau",
+    "title": "Heures",
+    "lead": "Tous les jours 8 h à 21 h sur l’accueil.",
+    "schema": "Le schéma Google dit 08:00–21:00 mais omet le lundi. Nous ne l’enlevons pas : la page l’imprime.",
+    "delivery": "Les apps de livraison montrent parfois d’autres heures. Nous imprimons celles du diner.",
+    "book": "Réservations au téléphone seulement."
+  },
+  "about": {
+    "kicker": "Hintonburg",
+    "title": "À propos",
+    "lead": "Diner traditionnel à Ottawa. En famille depuis 2015.",
+    "blend": "Ils écrivent un mélange de produits locaux et de classiques.",
+    "address": "1385 Wellington Street West, Ottawa, ON K1Y 2X1 — comme leur schéma. Certaines cartes mettent K1Y 2X2. Nous gardons le code postal qu’ils publient.",
+    "challenge": "Le défi Mac Daddy a sa propre page chez eux."
+  },
+  "contact": {
+    "kicker": "le booth",
+    "title": "Contact",
+    "lead": "Les réservations se font au téléphone. Le formulaire Wix n’est pas une retenue de table. Nous ne traitons pas de réservations ici.",
+    "emailNote": "jeff@thewellingtondiner.ca est sur le site.",
+    "map": "Carte",
+    "delivery": "Le site mentionne DoorDash. Nous n’inventons pas l’URL du magasin."
+  },
+  "footer": {
+    "line": "Family · food · fun & friends",
+    "copy": "Aperçu de wellingtondiner.com. Le Wix reste en ligne tant qu’ils ne disent pas autrement."
+  }
+}

@@ -1,0 +1,96 @@
+@import 'tailwindcss';
+
+:root {
+  --paper: #f6efe4;
+  --ink: #1a120e;
+  --muted: #6a5a52;
+  --red: #c4122e;
+  --cream: #fff7ea;
+  --chrome: #1c1c1c;
+  --line: #e2d6c6;
+  --gold: #d4a017;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-red: var(--red);
+  --color-cream: var(--cream);
+  --color-chrome: var(--chrome);
+  --color-line: var(--line);
+  --color-gold: var(--gold);
+  --font-heading: var(--font-heading);
+  --font-sans: var(--font-body);
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body), 'Segoe UI', system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading), Impact, 'Arial Narrow', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--red);
+    outline-offset: 3px;
+  }
+}
+
+.awning {
+  background: repeating-linear-gradient(90deg, #c4122e 0 22px, #fff7ea 22px 44px);
+  height: 14px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  padding: 0.85rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.btn-red {
+  background: var(--red);
+  color: #fff;
+  border: 2px solid #8e0d20;
+}
+
+.btn-red:hover {
+  background: #a80f26;
+}
+
+.btn-chrome {
+  background: var(--chrome);
+  color: #fff;
+  border: 2px solid #000;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: inherit;
+  border: 2px solid currentColor;
+}

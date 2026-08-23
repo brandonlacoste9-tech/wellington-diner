@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "site": "The Wellington Diner",
+    "description": "Ottawa diner at 1385 Wellington Street West. Breakfast all day. Tables by phone: (613) 798-7800."
+  },
+  "nav": {
+    "skip": "Skip to content",
+    "menu": "Menu",
+    "close": "Close",
+    "call": "Call for a table",
+    "specials": "Specials",
+    "hours": "Hours",
+    "about": "About",
+    "contact": "Contact",
+    "strip": "Hintonburg · breakfast all day · call for a table"
+  },
+  "callbar": {
+    "line": "Reservations are taken by phone. We do not book tables on this site."
+  },
+  "home": {
+    "kicker": "Ottawa · in the family since 2015",
+    "title": "Your neighborhood diner.",
+    "lead": "Breakfast, lunch, dinner, and the in-between. They print: come in, sit down, get ready to eat.",
+    "ctaCall": "Call (613) 798-7800",
+    "ctaMenu": "The menu",
+    "heroAlt": "A Wellington Diner burger and fries.",
+    "hoursTitle": "Open daily 8 am–9 pm",
+    "hoursLead": "As printed on their home page. Their schema lists the same window but skips Monday — we print the seven-day board they show.",
+    "menuTitle": "On the board",
+    "menuLead": "Benny, hashes, milkshakes, weekly specials. Prices from their live menu. Tax extra. Prices may change.",
+    "menuMore": "Full menu",
+    "challengeTitle": "Mac Daddy challenge",
+    "challengeLead": "40 minutes or it's $49.99. Oreo shake, three Mac Daddy burgers, double homie poutine. No splitting, no take-home.",
+    "challengeCta": "The challenge"
+  },
+  "menu": {
+    "kicker": "fresh fare",
+    "title": "Menu",
+    "lead": "Served daily. Breakfast all day. A slice of their priced board — not every extra and modifier.",
+    "note": "Prices exclude tax and may change. In-house specials have their own rules."
+  },
+  "specials": {
+    "kicker": "this week",
+    "title": "Specials",
+    "lead": "As printed on their menu. In-house only where they say so.",
+    "challengeTitle": "Mac Daddy food challenge",
+    "challengeCaption": "They credit Beard Meets Food for making it famous."
+  },
+  "hours": {
+    "kicker": "the board",
+    "title": "Hours",
+    "lead": "Come visit us — daily 8 am to 9 pm on the home page.",
+    "schema": "Their Google schema also says 08:00–21:00, but it lists Sunday and Tuesday–Saturday only (no Monday). We do not drop Monday when the page itself prints it.",
+    "delivery": "Third-party apps sometimes show different close times. We print the diner’s own hours.",
+    "book": "Reservations by phone only."
+  },
+  "about": {
+    "kicker": "Hintonburg",
+    "title": "About",
+    "lead": "The Wellington Diner is a traditional diner in Ottawa. Family since 2015. Fresh ingredients, casual, family-friendly — as they write it.",
+    "blend": "They write a blend of locally-sourced products and classic dishes.",
+    "address": "1385 Wellington Street West, Ottawa, ON K1Y 2X1 — as their schema prints. Some maps use K1Y 2X2. We use the postal they publish.",
+    "challenge": "The Mac Daddy challenge lives on its own page on their site."
+  },
+  "contact": {
+    "kicker": "the booth",
+    "title": "Contact",
+    "lead": "Reservations are taken by phone. Please call to book. Their Wix form is for messages, not a table hold. We do not process reservations here.",
+    "emailNote": "jeff@thewellingtondiner.ca is on the site.",
+    "map": "Map",
+    "delivery": "The live site mentions DoorDash. We do not invent a store URL."
+  },
+  "footer": {
+    "line": "Family · food · fun & friends",
+    "copy": "Preview of wellingtondiner.com. Live Wix site stays until they say otherwise."
+  }
+}
